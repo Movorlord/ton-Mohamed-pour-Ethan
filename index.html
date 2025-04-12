@@ -16,41 +16,13 @@
             min-height: 100vh;
         }
 
-        #lockscreen {
+        canvas.stars {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 999;
-        }
-
-        #lockscreen h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            color: #ff99cc;
-        }
-
-        #password {
-            padding: 10px 20px;
-            font-size: 1rem;
-            border-radius: 20px;
-            border: none;
-            outline: none;
-            margin-bottom: 10px;
-        }
-
-        #unlockBtn {
-            padding: 10px 20px;
-            font-size: 1rem;
-            border-radius: 20px;
-            border: none;
-            background: #ff0066;
-            color: white;
-            cursor: pointer;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
         }
 
         h1 {
@@ -65,7 +37,7 @@
             50% { transform: scale(1.05); opacity: 1; }
         }
 
-        .love-game {
+        .love-game, .quiz-game, .secret-section, .heart-hunt, .chat-section {
             background: rgba(0, 0, 0, 0.3);
             border-radius: 20px;
             padding: 30px;
@@ -73,23 +45,21 @@
             margin: 30px auto;
             box-shadow: 0 0 30px rgba(255, 0, 102, 0.5);
             border: 2px dashed #ff6699;
+            position: relative;
+            overflow: hidden;
         }
 
-        .heart {
-            font-size: 100px;
+        .hidden-heart {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            font-size: 25px;
             cursor: pointer;
-            display: inline-block;
-            transition: all 0.5s;
-            text-shadow: 0 0 20px rgba(255, 0, 102, 0.7);
-            animation: float 5s ease-in-out infinite;
+            display: none;
         }
 
-        .heart:hover {
-            transform: scale(1.2) rotate(10deg);
-        }
-
-        .rare-message {
-            font-size: 1.8rem;
+        .rare-message, .quiz-result, .secret-msg {
+            font-size: 1.5rem;
             margin: 20px 0;
             min-height: 100px;
             display: flex;
@@ -106,191 +76,173 @@
             background: linear-gradient(45deg, #ff0066, #ff6699);
             color: white;
             border: none;
-            padding: 15px 30px;
-            font-size: 1.2rem;
+            padding: 10px 20px;
+            font-size: 1rem;
             border-radius: 50px;
             cursor: pointer;
-            margin: 15px;
-            transition: all 0.3s;
-            font-weight: bold;
-            letter-spacing: 1px;
+            margin: 5px;
+            box-shadow: 0 5px 15px rgba(255, 0, 102, 0.5);
         }
 
-        .rarity-meter {
-            width: 80%;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 5px;
-            margin: 20px auto;
-            overflow: hidden;
-        }
-
-        .rarity-level {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #ffcc00, #ff0066);
-            transition: width 1s;
-        }
-
-        .hidden-message {
-            display: none;
-            font-size: 1.5rem;
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.5);
+        .chat-box {
+            max-height: 200px;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
         }
 
-        .floating-hearts {
-            position: fixed;
-            pointer-events: none;
-            z-index: 100;
-        }
-
-        .counter {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px 15px;
-            border-radius: 20px;
-            font-size: 1rem;
-        }
-
-        #content {
-            display: none;
+        .chat-box div {
+            text-align: left;
+            margin-bottom: 5px;
         }
     </style>
 </head>
 <body>
+    <canvas class="stars" id="stars"></canvas>
 
-<div id="lockscreen">
-    <h2>🔐 Entre le mot de passe pour accéder aux trésors 💖</h2>
-    <input type="password" id="password" placeholder="JJ/MM/AAAA">
-    <button id="unlockBtn">Déverrouiller</button>
-</div>
-
-<div id="content">
-    <div class="counter">Trésors trouvés: <span id="counter">0</span></div>
     <h1>💖 Trésors d'Amour 💖</h1>
-    
+
+    <!-- Jeu principal -->
     <div class="love-game">
         <div class="heart" onclick="revealMessage()">💘</div>
-        <div class="rarity-meter"><div class="rarity-level" id="rarityMeter"></div></div>
-        <div class="rare-message" id="messageDisplay">
-            Clique le cœur pour découvrir un message rare...
-        </div>
-        <div class="hidden-message" id="hiddenMessage"></div>
+        <div class="rare-message" id="messageDisplay">Clique sur le cœur pour découvrir un message rare...</div>
     </div>
-    
-    <button onclick="resetMessages()">Nouvelle Chasse aux Trésors</button>
-    <button onclick="createSpecialEffect()">Effet Spécial ✨</button>
-</div>
 
-<script>
-    const messages = [
-        { text: "Je t'aime plus que tout...", rarity: 1 },
-        { text: "Ton sourire est mon soleil 🌞", rarity: 1 },
-        { text: "À toi pour l'éternité...", rarity: 1 },
-        { text: "Mon cœur bat seulement pour toi 💓", rarity: 2 },
-        { text: "At vitam eternam mon amour 💍", rarity: 2 },
-        { text: "Tu es mon rêve devenu réalité 🌠", rarity: 3 },
-        { text: "Message ultra rare : Je veux passer ma vie avec toi 🏡", rarity: 4 },
-        { text: "TRÉSOR LEGENDAIRE : Tu es la raison de mon existence 💎", rarity: 5 }
-    ];
+    <!-- Quiz amoureux -->
+    <div class="quiz-game">
+        <h2>Quiz Amoureux 💞</h2>
+        <p>Quel jour nous sommes-nous promis éternité ?</p>
+        <input type="text" id="quizInput" placeholder="JJ/MM/AAAA">
+        <button onclick="checkQuiz()">Vérifier</button>
+        <div class="quiz-result" id="quizResult"></div>
+    </div>
 
-    let foundMessages = [];
-    let clickCount = 0;
+    <!-- Message ultra-secret -->
+    <div class="secret-section">
+        <h2>🔐 Message Secret</h2>
+        <button onclick="unlockSecret()">Débloquer le message</button>
+        <div class="secret-msg" id="secretMessage"></div>
+    </div>
 
-    function getRandomMessage() {
-        clickCount++;
-        let rarityBoost = Math.min(3, Math.floor(clickCount / 5));
-        let weightedMessages = [];
+    <!-- Coeurs cachés -->
+    <div class="heart-hunt">
+        <h2>💗 Trouve les cœurs cachés !</h2>
+        <p>Cliquer sur les cœurs mystérieux dissimulés...</p>
+    </div>
 
-        messages.forEach(msg => {
-            let weight = (6 - msg.rarity) + rarityBoost;
-            for (let i = 0; i < weight; i++) weightedMessages.push(msg);
-        });
+    <!-- Zone de messages partagés -->
+    <div class="chat-section">
+        <h2>💬 Laisse un mot doux ici</h2>
+        <div class="chat-box" id="chatBox"></div>
+        <input type="text" id="chatInput" placeholder="Écris ton message...">
+        <button onclick="sendMessage()">Envoyer</button>
+    </div>
 
-        weightedMessages = shuffleArray(weightedMessages);
-        return weightedMessages[0];
-    }
+    <button onclick="toggleStars()">🌌 Activer/Désactiver le ciel étoilé</button>
 
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
+    <script>
+        // Mode nuit étoilé
+        const canvas = document.getElementById('stars');
+        const ctx = canvas.getContext('2d');
+        let stars = [], activeStars = true;
+
+        function createStars() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            stars = Array.from({length: 100}, () => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 1.5,
+                alpha: Math.random()
+            }));
         }
-        return array;
-    }
 
-    function revealMessage() {
-        const message = getRandomMessage();
-        document.getElementById('messageDisplay').textContent = `Message ${getRarityName(message.rarity)}...`;
-        document.getElementById('hiddenMessage').textContent = message.text;
-        document.getElementById('hiddenMessage').style.display = 'block';
-
-        document.getElementById('rarityMeter').style.width = `${message.rarity * 20}%`;
-        const colors = ['#ff6699', '#ff3399', '#ff0066', '#cc0066', '#990033'];
-        document.getElementById('rarityMeter').style.background = `linear-gradient(90deg, #ffcc00, ${colors[message.rarity - 1]})`;
-
-        if (!foundMessages.some(m => m.text === message.text)) {
-            foundMessages.push(message);
-            document.getElementById('counter').textContent = foundMessages.length;
-            createHearts(10 + message.rarity * 5);
+        function drawStars() {
+            if (!activeStars) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#fff';
+            stars.forEach(star => {
+                ctx.globalAlpha = star.alpha;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, 2 * Math.PI);
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(drawStars);
         }
-    }
 
-    function getRarityName(rarity) {
-        const names = ['Commun', 'Peu Commun', 'Rare', 'Très Rare', 'Légendaire'];
-        return names[rarity - 1] || 'Unique';
-    }
+        function toggleStars() {
+            activeStars = !activeStars;
+            canvas.style.display = activeStars ? 'block' : 'none';
+            if (activeStars) drawStars();
+        }
 
-    function resetMessages() {
-        foundMessages = [];
-        document.getElementById('counter').textContent = '0';
-        document.getElementById('hiddenMessage').style.display = 'none';
-        document.getElementById('messageDisplay').textContent = 'Clique le cœur pour découvrir un message rare...';
-        document.getElementById('rarityMeter').style.width = '0%';
-        clickCount = 0;
-        createHearts(30);
-    }
+        createStars();
+        drawStars();
 
-    function createHearts(count) {
-        for (let i = 0; i < count; i++) {
+        // Messages rares
+        const messages = [
+            "Je t'aime plus que tout...",
+            "Ton sourire est mon soleil 🌞",
+            "À toi pour l'éternité...",
+            "At vitam eternam mon amour 💍",
+            "TRÉSOR LEGENDAIRE : Tu es la raison de mon existence 💎"
+        ];
+
+        let clickCount = 0;
+        function revealMessage() {
+            const msg = messages[Math.floor(Math.random() * messages.length)];
+            document.getElementById('messageDisplay').textContent = msg;
+            clickCount++;
+        }
+
+        function checkQuiz() {
+            const val = document.getElementById('quizInput').value;
+            if (val.trim() === '09/02/2025') {
+                document.getElementById('quizResult').textContent = "Bravo mon amour 💖 Tu as débloqué un trésor caché : 'Je veux t'épouser un jour' 💍";
+            } else {
+                document.getElementById('quizResult').textContent = "Hmm... essaie encore 😘";
+            }
+        }
+
+        function unlockSecret() {
+            if (clickCount >= 10) {
+                document.getElementById('secretMessage').textContent = "🔒 Message secret : Tu es mon seul univers 💫";
+            } else {
+                document.getElementById('secretMessage').textContent = `Encore ${10 - clickCount} clic(s) sur le cœur 💘 pour le débloquer.`;
+            }
+        }
+
+        // Cœurs cachés
+        for (let i = 0; i < 5; i++) {
             const heart = document.createElement('div');
-            heart.className = 'floating-hearts';
-            heart.innerHTML = ['💖', '💗', '💓', '💘', '💕'][Math.floor(Math.random() * 5)];
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.top = '100vh';
-            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
-            heart.style.animation = `float ${Math.random() * 3 + 2}s linear forwards`;
+            heart.className = 'hidden-heart';
+            heart.textContent = '💖';
+            heart.style.left = Math.random() * 90 + '%';
+            heart.style.top = Math.random() * 90 + '%';
+            heart.style.display = 'block';
+            heart.onclick = () => {
+                alert("💗 Tu as trouvé un cœur caché ! Voici ton cadeau : 'Je pense à toi chaque nuit 🌙'");
+                heart.remove();
+            }
             document.body.appendChild(heart);
-            setTimeout(() => { heart.style.top = -50 + 'px'; }, 100);
-            setTimeout(() => { heart.remove(); }, 5000);
         }
-    }
 
-    function createSpecialEffect() {
-        createHearts(50);
-        if (foundMessages.length > 0) {
-            const randomFound = foundMessages[Math.floor(Math.random() * foundMessages.length)];
-            document.getElementById('hiddenMessage').textContent = randomFound.text;
-            document.getElementById('hiddenMessage').style.display = 'block';
-        }
-    }
+        // Simuler une zone de message local (pas partagé en ligne mais sauvegardé localement)
+        const chatBox = document.getElementById("chatBox");
+        const chatInput = document.getElementById("chatInput");
 
-    // 🔐 Système de mot de passe
-    document.getElementById('unlockBtn').addEventListener('click', () => {
-        const pwd = document.getElementById('password').value;
-        if (pwd === '09/02/2025') {
-            document.getElementById('lockscreen').style.display = 'none';
-            document.getElementById('content').style.display = 'block';
-            createHearts(15);
-        } else {
-            alert("Mot de passe incorrect 🥺");
+        function sendMessage() {
+            const msg = chatInput.value.trim();
+            if (msg) {
+                const entry = document.createElement("div");
+                entry.textContent = `💌 ${msg}`;
+                chatBox.appendChild(entry);
+                chatInput.value = "";
+            }
         }
-    });
-</script>
+    </script>
 </body>
 </html>
