@@ -1,33 +1,302 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-  <title>💌 Message secret pour Ethan</title>
-  <style>
-    body {
-      background: #fff0f5;
-      text-align: center;
-      padding: 50px;
-      font-family: cursive;
-    }
-    h1 {
-      color: #ff1493;
-      text-shadow: 2px 2px 4px pink;
-    }
-    .message {
-      background: white;
-      border-radius: 20px;
-      padding: 20px;
-      max-width: 500px;
-      margin: 0 auto;
-      box-shadow: 0 0 15px rgba(255,105,180,0.3);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💘 Pour Ethan - Mon Amour Éternel</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #ffcce6, #990033, #660022);
+            font-family: 'Arial', cursive;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+            overflow-x: hidden;
+            color: white;
+        }
+        
+        h1 {
+            color: #ffccd5;
+            font-size: 3rem;
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+            animation: glow 2s infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #ff66b3; }
+            to { text-shadow: 0 0 20px #ff0066, 0 0 30px #ff0066; }
+        }
+        
+        .message-box {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 25px;
+            padding: 30px;
+            max-width: 600px;
+            margin: 20px auto;
+            box-shadow: 0 10px 30px rgba(255, 0, 102, 0.3);
+            border: 3px solid #ffccd5;
+            transform-style: preserve-3d;
+            transition: all 0.5s;
+        }
+        
+        .message-box:hover {
+            transform: rotateY(10deg) scale(1.02);
+            box-shadow: 0 15px 40px rgba(255, 0, 102, 0.4);
+        }
+        
+        .heart {
+            font-size: 120px;
+            animation: battement 1s infinite, float 6s ease-in-out infinite;
+            display: inline-block;
+            cursor: pointer;
+            text-shadow: 0 0 20px rgba(255, 0, 102, 0.7);
+        }
+        
+        @keyframes battement {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        button {
+            background: linear-gradient(45deg, #990033, #ff0066);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.3rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 20px 10px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            font-weight: bold;
+        }
+        
+        button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 15px;
+            height: 15px;
+            background-color: #f00;
+            opacity: 0;
+            animation: confetti 5s ease-in-out infinite;
+        }
+        
+        @keyframes confetti {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(1000px) rotate(720deg); opacity: 0; }
+        }
+        
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 100;
+            color: white;
+            border: 2px solid #ff0066;
+        }
+        
+        .song-info {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            max-width: 200px;
+            display: none;
+        }
+    </style>
 </head>
 <body>
-  <div class="message">
-    <h1>À mon Ethan adoré 💘</h1>
-    <p>Chaque jour avec toi est un cadeau...</p>
-    <p>Je t'aime à l'infini ♾️</p>
-  </div>
+    <!-- Cœur principal cliquable -->
+    <div class="heart" onclick="createHearts()">💖</div>
+    
+    <h1>Pour Ethan, Mon Amour</h1>
+    
+    <!-- Boîte de message -->
+    <div class="message-box">
+        <p style="font-size: 1.5rem;">💌 Message spécial du jour :</p>
+        <p id="dynamic-message" style="font-size: 1.8rem; margin: 20px 0;">"Tu es la personne la plus importante de ma vie"</p>
+    </div>
+    
+    <!-- Boutons interactifs -->
+    <div>
+        <button onclick="changeMessage()">Nouveau Message 💝</button>
+        <button onclick="startConfetti()">Lancer des confettis 🎉</button>
+        <button onclick="playMusic()">Musique Romantique 🎵</button>
+    </div>
+    
+    <!-- Contrôle musique -->
+    <div class="music-control" onclick="toggleMusic()" id="musicBtn">
+        🔇
+    </div>
+    
+    <div class="song-info" id="songInfo">
+        Lecture en cours : <span id="currentSong"></span>
+    </div>
+    
+    <script>
+        // Messages d'amour
+        const messages = [
+            "Je t'aime plus que tout au monde 💖",
+            "Ton sourire est mon soleil 🌞",
+            "À toi pour l'éternité... ⏳",
+            "Mon femboy préféré 😘",
+            "At vitam eternam 💍",
+            "Tu es parfait à mes yeux 👀",
+            "Mon cœur bat seulement pour toi 💓",
+            "Je veux passer ma vie avec toi 🏡",
+            "Tu es mon rêve devenu réalité 🌠",
+            "Personne ne me comprend comme toi 💞"
+        ];
+        
+        // Musiques demandées
+        const songs = [
+            { 
+                title: "Dark Red - Steve Lacy", 
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" 
+            },
+            { 
+                title: "Die With A Smile - Lady Gaga", 
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" 
+            },
+            { 
+                title: "Abracadabra - Lady Gaga", 
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" 
+            }
+        ];
+        
+        let audio = new Audio();
+        let isPlaying = false;
+        let currentSongIndex = 0;
+        
+        // Change le message
+        function changeMessage() {
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            document.getElementById("dynamic-message").innerHTML = `"${randomMessage}"`;
+            
+            // Petite animation
+            const box = document.querySelector('.message-box');
+            box.style.animation = 'none';
+            box.offsetHeight;
+            box.style.animation = 'glow 0.5s';
+        }
+        
+        // Crée des cœurs volants
+        function createHearts() {
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = ['💖', '💗', '💓', '💘'][Math.floor(Math.random()*4)];
+                heart.style.position = 'fixed';
+                heart.style.fontSize = Math.random() * 30 + 20 + 'px';
+                heart.style.left = Math.random() * window.innerWidth + 'px';
+                heart.style.top = '-50px';
+                heart.style.opacity = '0';
+                heart.style.animation = `float ${Math.random() * 3 + 2}s linear forwards`;
+                heart.style.zIndex = '999';
+                
+                document.body.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.style.opacity = '1';
+                    heart.style.top = window.innerHeight + 'px';
+                }, 100);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 5000);
+            }
+        }
+        
+        // Confettis
+        function startConfetti() {
+            for (let i = 0; i < 100; i++) {
+                createConfetti();
+            }
+        }
+        
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * window.innerWidth + 'px';
+            confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.body.appendChild(confetti);
+            
+            setTimeout(() => {
+                confetti.remove();
+            }, 5000);
+        }
+        
+        // Charge et joue la musique
+        function playMusic() {
+            if (!isPlaying) {
+                loadSong(currentSongIndex);
+                audio.play();
+                isPlaying = true;
+                document.getElementById('musicBtn').innerHTML = '🔊';
+                showSongInfo();
+            }
+        }
+        
+        function loadSong(index) {
+            audio.src = songs[index].url;
+            document.getElementById('currentSong').textContent = songs[index].title;
+        }
+        
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                document.getElementById('musicBtn').innerHTML = '🔇';
+                document.getElementById('songInfo').style.display = 'none';
+            } else {
+                audio.play();
+                document.getElementById('musicBtn').innerHTML = '🔊';
+                showSongInfo();
+            }
+            isPlaying = !isPlaying;
+        }
+        
+        function showSongInfo() {
+            const info = document.getElementById('songInfo');
+            info.style.display = 'block';
+            setTimeout(() => {
+                info.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Change de musique automatiquement
+        audio.addEventListener('ended', function() {
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            loadSong(currentSongIndex);
+            audio.play();
+            showSongInfo();
+        });
+        
+        // Au chargement de la page
+        window.addEventListener('load', function() {
+            loadSong(0);
+        });
+    </script>
 </body>
 </html>
