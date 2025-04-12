@@ -1,319 +1,101 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💘 Trésors d'Amour pour Ethan</title>
-    <style>
-        body {
-            background: linear-gradient(135deg, #330000, #990033, #660022);
-            font-family: 'Brush Script MT', cursive;
-            text-align: center;
-            padding: 20px;
-            margin: 0;
-            overflow-x: hidden;
-            color: #ffccd5;
-            min-height: 100vh;
-        }
-        
-        h1 {
-            font-size: 4rem;
-            text-shadow: 0 0 10px #ff0066, 0 0 20px #ff0066;
-            margin-bottom: 10px;
-            animation: pulse 3s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.9; }
-            50% { transform: scale(1.05); opacity: 1; }
-        }
-        
-        .love-game {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-            padding: 30px;
-            max-width: 600px;
-            margin: 30px auto;
-            box-shadow: 0 0 30px rgba(255, 0, 102, 0.5);
-            border: 2px dashed #ff6699;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .love-game::before {
-            content: "";
-            position: absolute;
-            top: -10px; left: -10px;
-            right: -10px; bottom: -10px;
-            background: linear-gradient(45deg, 
-                transparent 45%, 
-                #ff0066 50%, 
-                transparent 55%);
-            background-size: 200% 200%;
-            animation: shine 3s infinite;
-            z-index: -1;
-            opacity: 0.5;
-        }
-        
-        @keyframes shine {
-            0% { background-position: -100% -100%; }
-            100% { background-position: 100% 100%; }
-        }
-        
-        .heart {
-            font-size: 100px;
-            cursor: pointer;
-            display: inline-block;
-            transition: all 0.5s;
-            text-shadow: 0 0 20px rgba(255, 0, 102, 0.7);
-            animation: float 5s ease-in-out infinite;
-        }
-        
-        .heart:hover {
-            transform: scale(1.2) rotate(10deg);
-        }
-        
-        .rare-message {
-            font-size: 1.8rem;
-            margin: 20px 0;
-            min-height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            border-left: 5px solid #ff0066;
-            border-right: 5px solid #ff0066;
-        }
-        
-        button {
-            background: linear-gradient(45deg, #ff0066, #ff6699);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            border-radius: 50px;
-            cursor: pointer;
-            margin: 15px;
-            transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(255, 0, 102, 0.5);
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-        
-        button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 0, 102, 0.7);
-        }
-        
-        .rarity-meter {
-            width: 80%;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 5px;
-            margin: 20px auto;
-            overflow: hidden;
-        }
-        
-        .rarity-level {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #ffcc00, #ff0066);
-            transition: width 1s;
-        }
-        
-        .hidden-message {
-            display: none;
-            font-size: 1.5rem;
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 10px;
-            animation: fadeIn 2s;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .floating-hearts {
-            position: fixed;
-            pointer-events: none;
-            z-index: 100;
-        }
-        
-        .counter {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px 15px;
-            border-radius: 20px;
-            font-size: 1rem;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trésors d'Amour ✨</title>
+  <style>
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #1a1a40, #4b006e);
+      color: white;
+      text-align: center;
+    }
+    h1 {
+      margin-top: 50px;
+      font-size: 3em;
+      animation: fadeIn 2s ease-in-out;
+    }
+    .heart {
+      position: fixed;
+      color: pink;
+      animation: float 6s linear infinite;
+    }
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) scale(0.5);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1);
+        opacity: 0;
+      }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .button {
+      background-color: #ff66cc;
+      border: none;
+      padding: 15px 25px;
+      margin: 20px;
+      font-size: 1.2rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      color: white;
+    }
+    .button:hover {
+      transform: scale(1.1);
+    }
+  </style>
 </head>
 <body>
-    <div class="counter">Trésors trouvés: <span id="counter">0</span></div>
-    
-    <h1>💖 Trésors d'Amour 💖</h1>
-    
-    <div class="love-game">
-        <div class="heart" onclick="revealMessage()">💘</div>
-        <div class="rarity-meter">
-            <div class="rarity-level" id="rarityMeter"></div>
-        </div>
-        <div class="rare-message" id="messageDisplay">
-            Clique le cœur pour découvrir un message rare...
-        </div>
-        <div class="hidden-message" id="hiddenMessage"></div>
-    </div>
-    
-    <button onclick="resetMessages()">Nouvelle Chasse aux Trésors</button>
-    <button onclick="createSpecialEffect()">Effet Spécial ✨</button>
-    
-    <script>
-        // Messages avec différents niveaux de rareté
-        const messages = [
-            { text: "Je t'aime plus que tout...", rarity: 1 }, // 60% chance
-            { text: "Ton sourire est mon soleil 🌞", rarity: 1 },
-            { text: "À toi pour l'éternité...", rarity: 1 },
-            { text: "Mon cœur bat seulement pour toi 💓", rarity: 2 }, // 30% chance
-            { text: "At vitam eternam mon amour 💍", rarity: 2 },
-            { text: "Tu es mon rêve devenu réalité 🌠", rarity: 3 }, // 9% chance
-            { text: "Message ultra rare : Je veux passer ma vie avec toi 🏡", rarity: 4 }, // 1% chance
-            { text: "TRÉSOR LEGENDAIRE : Tu es la raison de mon existence je suis née pour toi tu est et tu sera toujours aimé par moi car tu est mon homme veux tu m'épousé ? 💎", rarity: 5 } // 0.1% chance
-        ];
-        
-        let foundMessages = [];
-        let clickCount = 0;
-        
-        // Fonction pour calculer la rareté
-        function getRandomMessage() {
-            clickCount++;
-            
-            // Augmente les chances de rareté après 5 clics
-            let rarityBoost = Math.min(3, Math.floor(clickCount / 5));
-            
-            // Crée un tableau pondéré en fonction de la rareté
-            let weightedMessages = [];
-            messages.forEach(msg => {
-                let weight = (6 - msg.rarity) + rarityBoost;
-                for (let i = 0; i < weight; i++) {
-                    weightedMessages.push(msg);
-                }
-            });
-            
-            // Mélange les messages
-            weightedMessages = shuffleArray(weightedMessages);
-            
-            // Sélectionne un message aléatoire
-            return weightedMessages[0];
-        }
-        
-        // Fonction pour mélanger un tableau
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-        
-        // Affiche un message rare
-        function revealMessage() {
-            const message = getRandomMessage();
-            const messageDisplay = document.getElementById('messageDisplay');
-            const hiddenMessage = document.getElementById('hiddenMessage');
-            const rarityMeter = document.getElementById('rarityMeter');
-            
-            // Animation
-            messageDisplay.style.animation = 'none';
-            messageDisplay.offsetHeight;
-            messageDisplay.style.animation = 'fadeIn 1s';
-            
-            // Affiche le message
-            messageDisplay.innerHTML = `Message ${getRarityName(message.rarity)}...`;
-            hiddenMessage.textContent = message.text;
-            hiddenMessage.style.display = 'block';
-            
-            // Met à jour le compteur de rareté
-            rarityMeter.style.width = `${message.rarity * 20}%`;
-            
-            // Change la couleur en fonction de la rareté
-            const colors = ['#ff6699', '#ff3399', '#ff0066', '#cc0066', '#990033'];
-            rarityMeter.style.background = `linear-gradient(90deg, #ffcc00, ${colors[message.rarity - 1]})`;
-            
-            // Ajoute aux messages trouvés
-            if (!foundMessages.some(m => m.text === message.text)) {
-                foundMessages.push(message);
-                document.getElementById('counter').textContent = foundMessages.length;
-                createHearts(10 + message.rarity * 5);
-            }
-        }
-        
-        // Donne un nom à la rareté
-        function getRarityName(rarity) {
-            const names = ['Commun', 'Peu Commun', 'Rare', 'Très Rare', 'Légendaire'];
-            return names[rarity - 1] || 'Unique';
-        }
-        
-        // Réinitialise les messages
-        function resetMessages() {
-            foundMessages = [];
-            document.getElementById('counter').textContent = '0';
-            document.getElementById('hiddenMessage').style.display = 'none';
-            document.getElementById('messageDisplay').textContent = 'Clique le cœur pour découvrir un message rare...';
-            document.getElementById('rarityMeter').style.width = '0%';
-            clickCount = 0;
-            createHearts(30);
-        }
-        
-        // Crée des cœurs flottants
-        function createHearts(count) {
-            for (let i = 0; i < count; i++) {
-                const heart = document.createElement('div');
-                heart.className = 'floating-hearts';
-                heart.innerHTML = ['💖', '💗', '💓', '💘', '💕'][Math.floor(Math.random() * 5)];
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.top = '100vh';
-                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
-                heart.style.animation = `float ${Math.random() * 3 + 2}s linear forwards`;
-                
-                document.body.appendChild(heart);
-                
-                setTimeout(() => {
-                    heart.style.top = -50 + 'px';
-                }, 100);
-                
-                setTimeout(() => {
-                    heart.remove();
-                }, 5000);
-            }
-        }
-        
-        // Effet spécial
-        function createSpecialEffect() {
-            createHearts(50);
-            const messageDisplay = document.getElementById('messageDisplay');
-            messageDisplay.style.animation = 'none';
-            messageDisplay.offsetHeight;
-            messageDisplay.style.animation = 'pulse 0.5s 3';
-            
-            // Affiche un message aléatoire parmi les trouvés
-            if (foundMessages.length > 0) {
-                const randomFound = foundMessages[Math.floor(Math.random() * foundMessages.length)];
-                document.getElementById('hiddenMessage').textContent = randomFound.text;
-                document.getElementById('hiddenMessage').style.display = 'block';
-            }
-        }
-        
-        // Initialisation
-        window.addEventListener('load', () => {
-            createHearts(15);
-        });
-    </script>
+  <div id="lockScreen" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #1f001f, #330033); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; font-family: 'Brush Script MT', cursive;">
+    <h2 style="font-size: 3rem; text-shadow: 0 0 15px #ff3399;">🔐 Trésor d'Amour Verrouillé</h2>
+    <p style="font-size: 1.5rem; margin: 20px;">Entre la date magique... 🗓️</p>
+    <input type="text" id="passwordInput" placeholder="JJ/MM/AAAA" style="padding: 15px; font-size: 1.2rem; border-radius: 15px; border: none; text-align: center;">
+    <button onclick="checkPassword()" style="margin-top: 20px; padding: 10px 25px; font-size: 1.1rem; border: none; border-radius: 30px; background: #ff3399; color: white; box-shadow: 0 0 15px #ff66cc; cursor: pointer;">Déverrouiller 💘</button>
+    <p id="errorMsg" style="margin-top: 20px; color: #ff99cc;"></p>
+  </div>
+
+  <h1 id="welcomeMessage" style="display: none;">Bienvenue dans notre monde magique, Ethan 💖</h1>
+  <p id="introText" style="display: none; font-size: 1.3rem; margin: 20px;">Voici un univers créé juste pour nous, rempli de trésors, de souvenirs, et de rêves partagés 🌟</p>
+
+  <script>
+    function createHearts(num) {
+      for (let i = 0; i < num; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.textContent = '❤️';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = 4 + Math.random() * 4 + 's';
+        heart.style.fontSize = 12 + Math.random() * 24 + 'px';
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 8000);
+      }
+    }
+
+    function checkPassword() {
+      const input = document.getElementById('passwordInput').value.trim();
+      const errorMsg = document.getElementById('errorMsg');
+
+      if (input === "09/02/2025") {
+        document.getElementById('lockScreen').style.transition = 'opacity 2s ease';
+        document.getElementById('lockScreen').style.opacity = 0;
+        setTimeout(() => {
+          document.getElementById('lockScreen').style.display = 'none';
+          document.getElementById('welcomeMessage').style.display = 'block';
+          document.getElementById('introText').style.display = 'block';
+          createHearts(30);
+        }, 2000);
+      } else {
+        errorMsg.textContent = "Hmm... Ce n'est pas la bonne date, mon trésor 🌙";
+      }
+    }
+  </script>
 </body>
 </html>
