@@ -3,290 +3,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💘 Pour Ethan - Mon Amour Éternel</title>
+    <title>💘 Trésors d'Amour pour Ethan</title>
     <style>
         body {
-            background: linear-gradient(135deg, #ffcce6, #990033, #660022);
-            font-family: 'Arial', cursive;
+            background: linear-gradient(135deg, #330000, #990033, #660022);
+            font-family: 'Brush Script MT', cursive;
             text-align: center;
             padding: 20px;
             margin: 0;
             overflow-x: hidden;
-            color: white;
+            color: #ffccd5;
+            min-height: 100vh;
         }
         
         h1 {
-            color: #ffccd5;
-            font-size: 3rem;
-            text-shadow: 3px 3px 0px rgba(0,0,0,0.3);
+            font-size: 4rem;
+            text-shadow: 0 0 10px #ff0066, 0 0 20px #ff0066;
             margin-bottom: 10px;
-            animation: glow 2s infinite alternate;
+            animation: pulse 3s infinite;
         }
         
-        @keyframes glow {
-            from { text-shadow: 0 0 10px #ff66b3; }
-            to { text-shadow: 0 0 20px #ff0066, 0 0 30px #ff0066; }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.05); opacity: 1; }
         }
         
-        .message-box {
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 25px;
+        .love-game {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
             padding: 30px;
             max-width: 600px;
-            margin: 20px auto;
-            box-shadow: 0 10px 30px rgba(255, 0, 102, 0.3);
-            border: 3px solid #ffccd5;
-            transform-style: preserve-3d;
-            transition: all 0.5s;
+            margin: 30px auto;
+            box-shadow: 0 0 30px rgba(255, 0, 102, 0.5);
+            border: 2px dashed #ff6699;
+            position: relative;
+            overflow: hidden;
         }
         
-        .message-box:hover {
-            transform: rotateY(10deg) scale(1.02);
-            box-shadow: 0 15px 40px rgba(255, 0, 102, 0.4);
+        .love-game::before {
+            content: "";
+            position: absolute;
+            top: -10px; left: -10px;
+            right: -10px; bottom: -10px;
+            background: linear-gradient(45deg, 
+                transparent 45%, 
+                #ff0066 50%, 
+                transparent 55%);
+            background-size: 200% 200%;
+            animation: shine 3s infinite;
+            z-index: -1;
+            opacity: 0.5;
+        }
+        
+        @keyframes shine {
+            0% { background-position: -100% -100%; }
+            100% { background-position: 100% 100%; }
         }
         
         .heart {
-            font-size: 120px;
-            animation: battement 1s infinite, float 6s ease-in-out infinite;
-            display: inline-block;
+            font-size: 100px;
             cursor: pointer;
+            display: inline-block;
+            transition: all 0.5s;
             text-shadow: 0 0 20px rgba(255, 0, 102, 0.7);
+            animation: float 5s ease-in-out infinite;
         }
         
-        @keyframes battement {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.3); }
+        .heart:hover {
+            transform: scale(1.2) rotate(10deg);
         }
         
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+        .rare-message {
+            font-size: 1.8rem;
+            margin: 20px 0;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            border-left: 5px solid #ff0066;
+            border-right: 5px solid #ff0066;
         }
         
         button {
-            background: linear-gradient(45deg, #990033, #ff0066);
+            background: linear-gradient(45deg, #ff0066, #ff6699);
             color: white;
             border: none;
             padding: 15px 30px;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             border-radius: 50px;
             cursor: pointer;
-            margin: 20px 10px;
+            margin: 15px;
             transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 5px 15px rgba(255, 0, 102, 0.5);
             font-weight: bold;
+            letter-spacing: 1px;
         }
         
         button:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 0, 102, 0.7);
         }
         
-        .confetti {
+        .rarity-meter {
+            width: 80%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        
+        .rarity-level {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ffcc00, #ff0066);
+            transition: width 1s;
+        }
+        
+        .hidden-message {
+            display: none;
+            font-size: 1.5rem;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            animation: fadeIn 2s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .floating-hearts {
             position: fixed;
-            width: 15px;
-            height: 15px;
-            background-color: #f00;
-            opacity: 0;
-            animation: confetti 5s ease-in-out infinite;
-        }
-        
-        @keyframes confetti {
-            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(1000px) rotate(720deg); opacity: 0; }
-        }
-        
-        .music-control {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.7);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            cursor: pointer;
+            pointer-events: none;
             z-index: 100;
-            color: white;
-            border: 2px solid #ff0066;
         }
         
-        .song-info {
+        .counter {
             position: fixed;
-            bottom: 80px;
+            top: 20px;
             right: 20px;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0, 0, 0, 0.5);
             padding: 10px 15px;
             border-radius: 20px;
-            font-size: 0.9rem;
-            max-width: 200px;
-            display: none;
-        }
-        
-        #musicDebug {
-            background: rgba(0,0,0,0.8);
-            color: #ffcc00;
-            padding: 15px;
-            border-radius: 10px;
-            max-width: 500px;
-            margin: 20px auto;
-            font-family: monospace;
-            display: none;
+            font-size: 1rem;
         }
     </style>
 </head>
 <body>
-    <div class="heart" onclick="createHearts()">💖</div>
-    <h1>Pour Ethan, Mon Amour</h1>
+    <div class="counter">Trésors trouvés: <span id="counter">0</span></div>
     
-    <div class="message-box">
-        <p style="font-size: 1.5rem;">💌 Message spécial du jour :</p>
-        <p id="dynamic-message" style="font-size: 1.8rem; margin: 20px 0;">"Tu es la personne la plus importante de ma vie"</p>
+    <h1>💖 Trésors d'Amour 💖</h1>
+    
+    <div class="love-game">
+        <div class="heart" onclick="revealMessage()">💘</div>
+        <div class="rarity-meter">
+            <div class="rarity-level" id="rarityMeter"></div>
+        </div>
+        <div class="rare-message" id="messageDisplay">
+            Clique le cœur pour découvrir un message rare...
+        </div>
+        <div class="hidden-message" id="hiddenMessage"></div>
     </div>
     
-    <div>
-        <button onclick="changeMessage()">Nouveau Message 💝</button>
-        <button onclick="startConfetti()">Lancer des confettis 🎉</button>
-        <button onclick="playMusic()">Musique Romantique 🎵</button>
-        <button onclick="toggleDebug()" style="background: #333;">Debug</button>
-    </div>
-    
-    <div class="music-control" onclick="toggleMusic()" id="musicBtn">
-        🔇
-    </div>
-    
-    <div class="song-info" id="songInfo">
-        Lecture en cours : <span id="currentSong"></span>
-    </div>
-    
-    <div id="musicDebug"></div>
+    <button onclick="resetMessages()">Nouvelle Chasse aux Trésors</button>
+    <button onclick="createSpecialEffect()">Effet Spécial ✨</button>
     
     <script>
-        // Configuration audio
-        const songs = [
-            { 
-                title: "Die With A Smile", 
-                url: "die-with-a-smile-clip-official.mp3" 
-            },
-            { 
-                title: "Dark Red", 
-                url: "rouge%20foncé.mp3"  // Encodage pour l'espace
-            },
-            { 
-                title: "Abracadabra", 
-                url: "abracadabra-audio-official.mp3" 
-            }
+        // Messages avec différents niveaux de rareté
+        const messages = [
+            { text: "Je t'aime plus que tout...", rarity: 1 }, // 60% chance
+            { text: "Ton sourire est mon soleil 🌞", rarity: 1 },
+            { text: "À toi pour l'éternité...", rarity: 1 },
+            { text: "Mon cœur bat seulement pour toi 💓", rarity: 2 }, // 30% chance
+            { text: "At vitam eternam mon amour 💍", rarity: 2 },
+            { text: "Tu es mon rêve devenu réalité 🌠", rarity: 3 }, // 9% chance
+            { text: "Message ultra rare : Je veux passer ma vie avec toi 🏡", rarity: 4 }, // 1% chance
+            { text: "TRÉSOR LEGENDAIRE : Tu es la raison de mon existence je suis née pour toi tu est et tu sera toujours aimé par moi car tu est mon homme veux tu m'épousé ? 💎", rarity: 5 } // 0.1% chance
         ];
         
-        let audio = new Audio();
-        let isPlaying = false;
-        let currentSongIndex = 0;
+        let foundMessages = [];
+        let clickCount = 0;
         
-        // Système de debug
-        function updateDebugInfo() {
-            const debugInfo = `
-                <h3>Debug Audio</h3>
-                <p><strong>Fichier actuel :</strong> ${songs[currentSongIndex].url}</p>
-                <p><strong>Statut :</strong> ${isPlaying ? 'En lecture' : 'En pause'}</p>
-                <p><strong>Erreur :</strong> ${audio.error ? audio.error.message : 'Aucune'}</p>
-                <p><strong>Prêt :</strong> ${audio.readyState}</p>
-                <p><strong>Format supporté :</strong> ${audio.canPlayType('audio/mp3')}</p>
-            `;
-            document.getElementById('musicDebug').innerHTML = debugInfo;
-        }
-        
-        function toggleDebug() {
-            const debugDiv = document.getElementById('musicDebug');
-            debugDiv.style.display = debugDiv.style.display === 'none' ? 'block' : 'none';
-            if (debugDiv.style.display === 'block') updateDebugInfo();
-        }
-        
-        // Gestion audio améliorée
-        function loadSong(index) {
-            audio = new Audio();
-            audio.src = songs[index].url;
-            audio.preload = 'auto';
+        // Fonction pour calculer la rareté
+        function getRandomMessage() {
+            clickCount++;
             
-            audio.addEventListener('canplay', () => {
-                console.log("Prêt à jouer :", songs[index].url);
-                updateDebugInfo();
-            });
+            // Augmente les chances de rareté après 5 clics
+            let rarityBoost = Math.min(3, Math.floor(clickCount / 5));
             
-            audio.addEventListener('error', () => {
-                console.error("Erreur audio :", audio.error);
-                updateDebugInfo();
-                alert(`Erreur de chargement : ${songs[index].url}\nVérifie le nom du fichier.`);
-            });
-            
-            document.getElementById('currentSong').textContent = songs[index].title;
-            updateDebugInfo();
-        }
-        
-        function playMusic() {
-            if (!isPlaying) {
-                loadSong(currentSongIndex);
-                
-                const playPromise = audio.play();
-                
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        isPlaying = true;
-                        document.getElementById('musicBtn').innerHTML = '🔊';
-                        showSongInfo();
-                        updateDebugInfo();
-                    })
-                    .catch(error => {
-                        console.error("Erreur de lecture :", error);
-                        updateDebugInfo();
-                        alert("Erreur : " + error.message + "\nClique à nouveau pour réessayer.");
-                    });
+            // Crée un tableau pondéré en fonction de la rareté
+            let weightedMessages = [];
+            messages.forEach(msg => {
+                let weight = (6 - msg.rarity) + rarityBoost;
+                for (let i = 0; i < weight; i++) {
+                    weightedMessages.push(msg);
                 }
-            }
-        }
-        
-        function toggleMusic() {
-            if (isPlaying) {
-                audio.pause();
-                document.getElementById('musicBtn').innerHTML = '🔇';
-                document.getElementById('songInfo').style.display = 'none';
-            } else {
-                playMusic();
-            }
-            isPlaying = !isPlaying;
-            updateDebugInfo();
-        }
-        
-        // Fonctions existantes
-        function changeMessage() {
-            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-            document.getElementById("dynamic-message").innerHTML = `"${randomMessage}"`;
+            });
             
-            const box = document.querySelector('.message-box');
-            box.style.animation = 'none';
-            box.offsetHeight;
-            box.style.animation = 'glow 0.5s';
+            // Mélange les messages
+            weightedMessages = shuffleArray(weightedMessages);
+            
+            // Sélectionne un message aléatoire
+            return weightedMessages[0];
         }
         
-        function createHearts() {
-            for (let i = 0; i < 20; i++) {
+        // Fonction pour mélanger un tableau
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        
+        // Affiche un message rare
+        function revealMessage() {
+            const message = getRandomMessage();
+            const messageDisplay = document.getElementById('messageDisplay');
+            const hiddenMessage = document.getElementById('hiddenMessage');
+            const rarityMeter = document.getElementById('rarityMeter');
+            
+            // Animation
+            messageDisplay.style.animation = 'none';
+            messageDisplay.offsetHeight;
+            messageDisplay.style.animation = 'fadeIn 1s';
+            
+            // Affiche le message
+            messageDisplay.innerHTML = `Message ${getRarityName(message.rarity)}...`;
+            hiddenMessage.textContent = message.text;
+            hiddenMessage.style.display = 'block';
+            
+            // Met à jour le compteur de rareté
+            rarityMeter.style.width = `${message.rarity * 20}%`;
+            
+            // Change la couleur en fonction de la rareté
+            const colors = ['#ff6699', '#ff3399', '#ff0066', '#cc0066', '#990033'];
+            rarityMeter.style.background = `linear-gradient(90deg, #ffcc00, ${colors[message.rarity - 1]})`;
+            
+            // Ajoute aux messages trouvés
+            if (!foundMessages.some(m => m.text === message.text)) {
+                foundMessages.push(message);
+                document.getElementById('counter').textContent = foundMessages.length;
+                createHearts(10 + message.rarity * 5);
+            }
+        }
+        
+        // Donne un nom à la rareté
+        function getRarityName(rarity) {
+            const names = ['Commun', 'Peu Commun', 'Rare', 'Très Rare', 'Légendaire'];
+            return names[rarity - 1] || 'Unique';
+        }
+        
+        // Réinitialise les messages
+        function resetMessages() {
+            foundMessages = [];
+            document.getElementById('counter').textContent = '0';
+            document.getElementById('hiddenMessage').style.display = 'none';
+            document.getElementById('messageDisplay').textContent = 'Clique le cœur pour découvrir un message rare...';
+            document.getElementById('rarityMeter').style.width = '0%';
+            clickCount = 0;
+            createHearts(30);
+        }
+        
+        // Crée des cœurs flottants
+        function createHearts(count) {
+            for (let i = 0; i < count; i++) {
                 const heart = document.createElement('div');
-                heart.innerHTML = ['💖', '💗', '💓', '💘'][Math.floor(Math.random()*4)];
-                heart.style.position = 'fixed';
-                heart.style.fontSize = Math.random() * 30 + 20 + 'px';
-                heart.style.left = Math.random() * window.innerWidth + 'px';
-                heart.style.top = '-50px';
-                heart.style.opacity = '0';
+                heart.className = 'floating-hearts';
+                heart.innerHTML = ['💖', '💗', '💓', '💘', '💕'][Math.floor(Math.random() * 5)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = '100vh';
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
                 heart.style.animation = `float ${Math.random() * 3 + 2}s linear forwards`;
-                heart.style.zIndex = '999';
                 
                 document.body.appendChild(heart);
                 
                 setTimeout(() => {
-                    heart.style.opacity = '1';
-                    heart.style.top = window.innerHeight + 'px';
+                    heart.style.top = -50 + 'px';
                 }, 100);
                 
                 setTimeout(() => {
@@ -295,56 +294,25 @@
             }
         }
         
-        function startConfetti() {
-            for (let i = 0; i < 100; i++) {
-                createConfetti();
+        // Effet spécial
+        function createSpecialEffect() {
+            createHearts(50);
+            const messageDisplay = document.getElementById('messageDisplay');
+            messageDisplay.style.animation = 'none';
+            messageDisplay.offsetHeight;
+            messageDisplay.style.animation = 'pulse 0.5s 3';
+            
+            // Affiche un message aléatoire parmi les trouvés
+            if (foundMessages.length > 0) {
+                const randomFound = foundMessages[Math.floor(Math.random() * foundMessages.length)];
+                document.getElementById('hiddenMessage').textContent = randomFound.text;
+                document.getElementById('hiddenMessage').style.display = 'block';
             }
         }
         
-        function createConfetti() {
-            const confetti = document.createElement('div');
-            confetti.className = 'confetti';
-            confetti.style.left = Math.random() * window.innerWidth + 'px';
-            confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-            confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
-            document.body.appendChild(confetti);
-            
-            setTimeout(() => {
-                confetti.remove();
-            }, 5000);
-        }
-        
-        function showSongInfo() {
-            const info = document.getElementById('songInfo');
-            info.style.display = 'block';
-            setTimeout(() => {
-                info.style.display = 'none';
-            }, 3000);
-        }
-        
-        // Messages d'amour
-        const messages = [
-            "Je t'aime plus que tout au monde 💖",
-            "Ton sourire est mon soleil 🌞",
-            "À toi pour l'éternité... ⏳",
-            "Mon femboy préféré 😘",
-            "At vitam eternam 💍",
-            "Tu es parfait à mes yeux 👀",
-            "Mon cœur bat seulement pour toi 💓",
-            "Je veux passer ma vie avec toi 🏡",
-            "Tu es mon rêve devenu réalité 🌠",
-            "Personne ne me comprend comme toi 💞"
-        ];
-        
         // Initialisation
-        window.addEventListener('load', function() {
-            loadSong(0);
-            
-            audio.addEventListener('ended', function() {
-                currentSongIndex = (currentSongIndex + 1) % songs.length;
-                loadSong(currentSongIndex);
-                if (isPlaying) audio.play();
-            });
+        window.addEventListener('load', () => {
+            createHearts(15);
         });
     </script>
 </body>
