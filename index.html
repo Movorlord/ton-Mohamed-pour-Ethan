@@ -125,28 +125,35 @@
             max-width: 200px;
             display: none;
         }
+        
+        #musicDebug {
+            background: rgba(0,0,0,0.8);
+            color: #ffcc00;
+            padding: 15px;
+            border-radius: 10px;
+            max-width: 500px;
+            margin: 20px auto;
+            font-family: monospace;
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <!-- Cœur principal cliquable -->
     <div class="heart" onclick="createHearts()">💖</div>
-    
     <h1>Pour Ethan, Mon Amour</h1>
     
-    <!-- Boîte de message -->
     <div class="message-box">
         <p style="font-size: 1.5rem;">💌 Message spécial du jour :</p>
         <p id="dynamic-message" style="font-size: 1.8rem; margin: 20px 0;">"Tu es la personne la plus importante de ma vie"</p>
     </div>
     
-    <!-- Boutons interactifs -->
     <div>
         <button onclick="changeMessage()">Nouveau Message 💝</button>
         <button onclick="startConfetti()">Lancer des confettis 🎉</button>
         <button onclick="playMusic()">Musique Romantique 🎵</button>
+        <button onclick="toggleDebug()" style="background: #333;">Debug</button>
     </div>
     
-    <!-- Contrôle musique -->
     <div class="music-control" onclick="toggleMusic()" id="musicBtn">
         🔇
     </div>
@@ -155,22 +162,10 @@
         Lecture en cours : <span id="currentSong"></span>
     </div>
     
+    <div id="musicDebug"></div>
+    
     <script>
-        // Messages d'amour
-        const messages = [
-            "Je t'aime plus que tout au monde 💖",
-            "Ton sourire est mon soleil 🌞",
-            "À toi pour l'éternité... ⏳",
-            "Mon femboy préféré 😘",
-            "At vitam eternam 💍",
-            "Tu es parfait à mes yeux 👀",
-            "Mon cœur bat seulement pour toi 💓",
-            "Je veux passer ma vie avec toi 🏡",
-            "Tu es mon rêve devenu réalité 🌠",
-            "Personne ne me comprend comme toi 💞"
-        ];
-        
-        // TES MUSIQUES (noms exacts des fichiers)
+        // Configuration audio
         const songs = [
             { 
                 title: "Die With A Smile", 
@@ -178,7 +173,7 @@
             },
             { 
                 title: "Dark Red", 
-                url: "rouge foncé.mp3" 
+                url: "rouge%20foncé.mp3"  // Encodage pour l'espace
             },
             { 
                 title: "Abracadabra", 
@@ -187,22 +182,94 @@
         ];
         
         let audio = new Audio();
-        let isPlaying = true;
+        let isPlaying = false;
         let currentSongIndex = 0;
         
-        // Change le message
+        // Système de debug
+        function updateDebugInfo() {
+            const debugInfo = `
+                <h3>Debug Audio</h3>
+                <p><strong>Fichier actuel :</strong> ${songs[currentSongIndex].url}</p>
+                <p><strong>Statut :</strong> ${isPlaying ? 'En lecture' : 'En pause'}</p>
+                <p><strong>Erreur :</strong> ${audio.error ? audio.error.message : 'Aucune'}</p>
+                <p><strong>Prêt :</strong> ${audio.readyState}</p>
+                <p><strong>Format supporté :</strong> ${audio.canPlayType('audio/mp3')}</p>
+            `;
+            document.getElementById('musicDebug').innerHTML = debugInfo;
+        }
+        
+        function toggleDebug() {
+            const debugDiv = document.getElementById('musicDebug');
+            debugDiv.style.display = debugDiv.style.display === 'none' ? 'block' : 'none';
+            if (debugDiv.style.display === 'block') updateDebugInfo();
+        }
+        
+        // Gestion audio améliorée
+        function loadSong(index) {
+            audio = new Audio();
+            audio.src = songs[index].url;
+            audio.preload = 'auto';
+            
+            audio.addEventListener('canplay', () => {
+                console.log("Prêt à jouer :", songs[index].url);
+                updateDebugInfo();
+            });
+            
+            audio.addEventListener('error', () => {
+                console.error("Erreur audio :", audio.error);
+                updateDebugInfo();
+                alert(`Erreur de chargement : ${songs[index].url}\nVérifie le nom du fichier.`);
+            });
+            
+            document.getElementById('currentSong').textContent = songs[index].title;
+            updateDebugInfo();
+        }
+        
+        function playMusic() {
+            if (!isPlaying) {
+                loadSong(currentSongIndex);
+                
+                const playPromise = audio.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        isPlaying = true;
+                        document.getElementById('musicBtn').innerHTML = '🔊';
+                        showSongInfo();
+                        updateDebugInfo();
+                    })
+                    .catch(error => {
+                        console.error("Erreur de lecture :", error);
+                        updateDebugInfo();
+                        alert("Erreur : " + error.message + "\nClique à nouveau pour réessayer.");
+                    });
+                }
+            }
+        }
+        
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                document.getElementById('musicBtn').innerHTML = '🔇';
+                document.getElementById('songInfo').style.display = 'none';
+            } else {
+                playMusic();
+            }
+            isPlaying = !isPlaying;
+            updateDebugInfo();
+        }
+        
+        // Fonctions existantes
         function changeMessage() {
             const randomMessage = messages[Math.floor(Math.random() * messages.length)];
             document.getElementById("dynamic-message").innerHTML = `"${randomMessage}"`;
             
-            // Petite animation
             const box = document.querySelector('.message-box');
             box.style.animation = 'none';
             box.offsetHeight;
             box.style.animation = 'glow 0.5s';
         }
         
-        // Crée des cœurs volants
         function createHearts() {
             for (let i = 0; i < 20; i++) {
                 const heart = document.createElement('div');
@@ -228,7 +295,6 @@
             }
         }
         
-        // Confettis
         function startConfetti() {
             for (let i = 0; i < 100; i++) {
                 createConfetti();
@@ -248,35 +314,6 @@
             }, 5000);
         }
         
-        // Charge et joue la musique
-        function playMusic() {
-            if (!isPlaying) {
-                loadSong(currentSongIndex);
-                audio.play();
-                isPlaying = true;
-                document.getElementById('musicBtn').innerHTML = '🔊';
-                showSongInfo();
-            }
-        }
-        
-        function loadSong(index) {
-            audio.src = songs[index].url;
-            document.getElementById('currentSong').textContent = songs[index].title;
-        }
-        
-        function toggleMusic() {
-            if (isPlaying) {
-                audio.pause();
-                document.getElementById('musicBtn').innerHTML = '🔇';
-                document.getElementById('songInfo').style.display = 'none';
-            } else {
-                audio.play();
-                document.getElementById('musicBtn').innerHTML = '🔊';
-                showSongInfo();
-            }
-            isPlaying = !isPlaying;
-        }
-        
         function showSongInfo() {
             const info = document.getElementById('songInfo');
             info.style.display = 'block';
@@ -285,17 +322,29 @@
             }, 3000);
         }
         
-        // Change de musique automatiquement
-        audio.addEventListener('ended', function() {
-            currentSongIndex = (currentSongIndex + 1) % songs.length;
-            loadSong(currentSongIndex);
-            audio.play();
-            showSongInfo();
-        });
+        // Messages d'amour
+        const messages = [
+            "Je t'aime plus que tout au monde 💖",
+            "Ton sourire est mon soleil 🌞",
+            "À toi pour l'éternité... ⏳",
+            "Mon femboy préféré 😘",
+            "At vitam eternam 💍",
+            "Tu es parfait à mes yeux 👀",
+            "Mon cœur bat seulement pour toi 💓",
+            "Je veux passer ma vie avec toi 🏡",
+            "Tu es mon rêve devenu réalité 🌠",
+            "Personne ne me comprend comme toi 💞"
+        ];
         
-        // Au chargement de la page
+        // Initialisation
         window.addEventListener('load', function() {
             loadSong(0);
+            
+            audio.addEventListener('ended', function() {
+                currentSongIndex = (currentSongIndex + 1) % songs.length;
+                loadSong(currentSongIndex);
+                if (isPlaying) audio.play();
+            });
         });
     </script>
 </body>
